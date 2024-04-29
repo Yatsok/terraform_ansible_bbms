@@ -1,0 +1,21 @@
+---
+# tasks file for conf-nginx
+- name: Create bbms directory
+  file:
+     path: /srv/bbms
+     state: directory
+- name: Configure nginx
+  copy:
+    dest: /etc/nginx/conf.d/default.conf
+    src: files/default.conf
+- name: Clone a repo with separate git directory
+  git:
+    repo: https://github.com/mentorchita/Blood-Bank-Management-System.git
+    dest: /srv/bbms/
+    clone: yes
+    update: yes
+- name: Copy configuration file for db
+  copy:
+    dest: /srv/bbms/file/
+    src: files/connection.php
+  notify: restart nginx

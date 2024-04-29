@@ -1,0 +1,6 @@
+---
+# vars file for conf-mariadb
+mariadb_root_password: password
+mariadb_db_name: bloodbank
+mariadb_user_name: remoteuser
+mariadb_user_password: password

@@ -1,0 +1,6 @@
+---
+# handlers file for conf-mariadb
+  - name: restart MariaDB
+    service:
+        name: mariadb
+        state: restarted

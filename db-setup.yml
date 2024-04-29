@@ -1,0 +1,8 @@
+---
+- name: Setup BBMS database
+  hosts: all
+  become: true
+
+  roles:
+    - mariadb
+    - conf-mariadb

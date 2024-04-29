@@ -1,0 +1,33 @@
+---
+# tasks file for conf-mariadb
+- name: Configure MariaDB
+  copy:
+    dest: /etc/mysql/mariadb.conf.d/50-server.cnf
+    src: files/50-server.cnf
+- name: Create a new database
+  mysql_db:
+    name: "{{ mariadb_db_name }}"
+    state: present
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+- name: Create database user with password and grant all privileges on the new database
+  mysql_user:
+    name: "{{ mariadb_user_name }}"
+    password: "{{ mariadb_user_password }}"
+    priv: '{{ mariadb_db_name }}.*:ALL,GRANT'
+    host: '%'
+    state: present
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+- name: Copy database dump file
+  copy:
+    src: files/import.sql
+    dest: /tmp
+- name: Import database
+  mysql_db:
+    name: "{{ mariadb_db_name }}"
+    login_user: "{{ mariadb_user_name }}"
+    login_password: "{{ mariadb_user_password }}"
+    state: import
+    target: /tmp/import.sql
+  notify: restart MariaDB

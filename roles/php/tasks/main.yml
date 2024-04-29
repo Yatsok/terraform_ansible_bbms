@@ -1,0 +1,20 @@
+---
+# tasks file for php
+ - name: Setup PHP apt repository
+   apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+ - name: Install PHP and PHP-FPM
+   apt:
+        pkg:
+        - php8.2
+        - php8.2-cli
+        - php8.2-fpm
+        - php8.2-mysql
+        state: present
+        update_cache: true
+ - name: Start PHP-FPM, ensure it automatically starts on boot
+   service:
+      name: php8.2-fpm
+      enabled: true
+      state: started

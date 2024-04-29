@@ -1,0 +1,11 @@
+---
+- name: Setup BBMS application
+  hosts: all
+  become: true
+
+  roles:
+    - php
+    - nginx
+    - conf-nginx
+      
+
